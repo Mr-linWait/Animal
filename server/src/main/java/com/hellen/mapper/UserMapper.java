@@ -1,4 +1,4 @@
-package com.hellen.server.user;
+package com.hellen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
