@@ -1,0 +1,7 @@
+server: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/animal
+    username: root
+    password: sntanya615720
+    driver-class-name: com.mysql.cj.jdbc.Driver

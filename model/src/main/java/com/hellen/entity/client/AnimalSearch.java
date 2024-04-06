@@ -6,10 +6,10 @@ import com.hellen.enum_.ApplyState;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+@TableName("tb_animalSearch")
 @Data
 @Accessors(chain = true)
-@TableName("tb_animalAdoption")
-public class AnimalRecord {
+public class AnimalSearch {
 
     @TableField
     private ApplyState applyState;//申请状态
@@ -18,4 +18,5 @@ public class AnimalRecord {
 
     @TableField
     private Long applyId;//申请人id
+
 }
