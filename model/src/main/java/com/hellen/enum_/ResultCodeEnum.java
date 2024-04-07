@@ -15,7 +15,7 @@ public enum ResultCodeEnum {
     DATA_ERROR(204, "数据异常"),
     DATA_UPDATE_ERROR(205, "数据版本异常"),
 
-    LOGIN_AUTH(208, "未登陆"),
+    LOGIN_AUTH(401, "未登陆"),
 
     NOT_REGIST(210,"账户不存在，请注册！"),
     PERMISSION(209, "没有权限"),

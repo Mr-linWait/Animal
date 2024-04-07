@@ -38,6 +38,12 @@ public class UserController {
         return Result.success(loginUser);
     }
 
+    @DeleteMapping("logOut/{userId}")
+    public Result logOut(@PathVariable Long userId,HttpServletRequest request){
+        request.getSession().invalidate();
+        return Result.success();
+    }
+
     @PostMapping("regist")
     public Result regist(@RequestParam() User userInfo) {
         if (userInfo == null)
