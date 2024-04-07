@@ -42,7 +42,7 @@ create table tb_collecanimals
 (
     id         bigint primary key,
     animalId   varchar(65) not null,
-    animalId   varchar(65) not null,
+    userId   varchar(65) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
