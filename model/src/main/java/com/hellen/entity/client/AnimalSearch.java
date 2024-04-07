@@ -6,6 +6,9 @@ import com.hellen.enum_.ApplyState;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * 寻宠
+ */
 @TableName("tb_animalSearch")
 @Data
 @Accessors(chain = true)

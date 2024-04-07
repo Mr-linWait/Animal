@@ -6,10 +6,13 @@ import com.hellen.enum_.ApplyState;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * 用户收养的宠物
+ */
 @Data
 @Accessors(chain = true)
 @TableName("tb_animalAdoption")
-public class AnimalRecord {
+public class AnimalAdoption {
 
     @TableField
     private ApplyState applyState;//申请状态

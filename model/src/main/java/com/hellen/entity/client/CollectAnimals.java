@@ -6,6 +6,9 @@ import com.hellen.entity.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * 用户收藏的宠物
+ */
 @TableName("tb_collecanimals")
 @Data
 @Accessors(chain = true)
