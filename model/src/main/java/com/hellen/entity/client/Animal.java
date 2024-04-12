@@ -40,4 +40,8 @@ public class Animal extends BaseEntity {
     @TableField
     private String description;//描述
 
+
+    /**/
+    @TableField(exist = false)
+    private AnimalHealthInfo animalHealthInfo;
 }

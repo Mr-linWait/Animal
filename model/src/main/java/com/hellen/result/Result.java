@@ -12,7 +12,7 @@ public class Result<T> {
 
     private int code ;//返回码
 
-    private T t;//返回数据
+    private T data;//返回数据
 
     private String message;//返回信息
 

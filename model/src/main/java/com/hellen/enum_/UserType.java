@@ -2,17 +2,17 @@ package com.hellen.enum_;
 
 public enum UserType {
 
-    Admin(1),
+    Admin("Admin"),
 
-    Animal(3),
-    User(2);
+    Animal("Animal"),
+    User("User");
 
-    private int code;
-    private UserType (int code){
+    private String code;
+    private UserType (String code){
         this.code=code;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 }

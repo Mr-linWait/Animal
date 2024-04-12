@@ -2,9 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hellen.mapper.AnimalInfoMapper">
 
-    <select id="hotAnimalInfo" resultType="com.hellen.entity.client.Animal">
+    <resultMap id="animalInfo" type="com.hellen.entity.client.Animal">
+        <id column="id" property="id"></id>
+        <result column="age" property="age"></result>
+        <result column="animalState" property="animalState"></result>
+        <result property="city" column="city"></result>
+        <result property="description" column="description"></result>
+        <result column="gender" property="gender"></result>
+        <result property="name" column="name"></result>
+        <result property="needCardNum" column="needCardNum" ></result>
+        <result property="province" column="province" ></result>
+        <result property="species" column="species" ></result>
+        <result property="type" column="type"></result>
+        <result property="createTime" column="createTime" ></result>
+        <result property="modifier" column="modifier"></result>
+        <result property="modifyTime" column="modifyTime" ></result>
+        <association property="animalHealthInfo" resultMap="healthInfo"></association>
+     </resultMap>
+    <resultMap id="healthInfo" type="com.hellen.entity.client.AnimalHealthInfo">
+        <result property="animalId" column="animalId"></result>
+        <result property="desinsectization" column="desinsectization"></result>
+        <result property="immune" column="immune"></result>
+        <result property="sterilization" column="sterilization"></result>
+    </resultMap>
+
+    <select id="hotAnimalInfo" resultMap="animalInfo">
         select *
-        from tb_animal limit 5
+        from tb_animal animal
+                 left join tb_animalHealthInfo health on health.animalId = animal.id limit 5
+
     </select>
 
 </mapper>

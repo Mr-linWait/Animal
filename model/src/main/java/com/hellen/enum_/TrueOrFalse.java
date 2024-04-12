@@ -2,12 +2,12 @@ package com.hellen.enum_;
 
 public enum TrueOrFalse {
 
-    TRUE(0),
-    False(1);
+    True("True"),
+    False("False");
 
-    private int code;
+    private String code;
 
-    private TrueOrFalse (int code){
+    private TrueOrFalse (String code){
         this.code=code;
     }
 }

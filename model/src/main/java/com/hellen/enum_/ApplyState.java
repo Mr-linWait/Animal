@@ -1,12 +1,12 @@
 package com.hellen.enum_;
 
 public enum ApplyState {
-    Applying(1),
-    Pass(2);
+    Applying("Applying"),
+    Pass("Pass");
 
-    private int code;
+    private String code;
 
-    private ApplyState (int code){
+    private ApplyState (String code){
         this.code=code;
     }
 }

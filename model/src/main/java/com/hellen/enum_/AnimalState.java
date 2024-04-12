@@ -2,12 +2,12 @@ package com.hellen.enum_;
 
 
 public enum AnimalState {
-    send(0),
-    search(1);
+    send("send"),
+    search("search");
 
-    private int code;
+    private String code;
 
-    private AnimalState(int code){
+    private AnimalState(String code){
         this.code=code;
     }
 }

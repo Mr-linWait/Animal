@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
     /**
@@ -26,7 +27,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @PostMapping("login/{account}/{password}")
+    @GetMapping("login/{account}/{password}")
     public Result login(HttpServletRequest request, @PathVariable(required = true) String account, @PathVariable String password) {
         User loginUser = userService.login(account, password);
         if (loginUser != null) {

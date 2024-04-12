@@ -8,7 +8,7 @@ create table tb_user
     address    varchar(30),
     email      varchar(20),
     signature  varchar(20),
-    userType   varchar(2),
+    userType   varchar(20),
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -19,9 +19,9 @@ create table tb_message
     id           bigint primary key,
     addresserId  varchar(65) not null,
     recipientsId varchar(65) not null,
-    messageState varchar(3)  not null,
+    messageState varchar(20)  not null,
     content      nvarchar(1000),
-    messageType  varchar(3),
+    messageType  varchar(20),
     createTime   datetime,
     modifyTime   datetime,
     modifier     varchar(65)
@@ -31,7 +31,7 @@ create table tb_comment
 (
     id         bigint primary key,
     bizId      varchar(65) not null,
-    bizType    varchar(3)  not null,
+    bizType    varchar(20)  not null,
     comment    nvarchar(100),
     createTime datetime,
     modifyTime datetime,
@@ -42,7 +42,7 @@ create table tb_collecanimals
 (
     id         bigint primary key,
     animalId   varchar(65) not null,
-    userId   varchar(65) not null,
+    userId     varchar(65) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -53,7 +53,7 @@ create table tb_animalSearch
     id         bigint primary key,
     animalId   varchar(65) not null,
     applyId    varchar(65) not null,
-    applyState varchar(3)  not null,
+    applyState varchar(20)  not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -64,7 +64,7 @@ create table tb_animalAdoption
     id         bigint primary key,
     animalId   varchar(65) not null,
     applyId    varchar(65) not null,
-    applyState varchar(3)  not null,
+    applyState varchar(20)  not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -73,8 +73,8 @@ create table tb_animalAdoption
 create table tb_animalImg
 (
     id         bigint primary key,
-    animalId   varchar(65) not null,
-    path varchar(100)  not null,
+    animalId   varchar(65)  not null,
+    path       varchar(100) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -82,30 +82,48 @@ create table tb_animalImg
 
 create table tb_animalHealthInfo
 (
-    id         bigint primary key,
-    animalId   varchar(65) not null,
-    sterilization    varchar(3) not null,
-    desinsectization varchar(3)  not null,
-    immune varchar(3)  not null,
-    createTime datetime,
-    modifyTime datetime,
-    modifier   varchar(65)
+    id               bigint primary key,
+    animalId         varchar(65) not null,
+    sterilization    varchar(20)  not null,
+    desinsectization varchar(20)  not null,
+    immune           varchar(20)  not null,
+    createTime       datetime,
+    modifyTime       datetime,
+    modifier         varchar(65)
 );
 
 create table tb_user
 (
-    id         bigint primary key,
-    name    varchar(20) not null,
-    type   varchar(3),
-    species   varchar(20),
-    age        int,
-    gender    varchar(3),
-    animalState      varchar(20),
-    province  varchar(20),
-    city   varchar(2),
-    needCardNum int ,
+    id          bigint primary key,
+    name        varchar(20) not null,
+    type        varchar(20),
+    species     varchar(20),
+    age         int,
+    gender      varchar(20),
+    animalState varchar(20),
+    province    varchar(20),
+    city        varchar(20),
+    needCardNum int,
     description varchar(100),
-    createTime datetime,
-    modifyTime datetime,
-    modifier   varchar(65)
+    createTime  datetime,
+    modifyTime  datetime,
+    modifier    varchar(65)
 );
+
+create table tb_animal
+(
+    id          bigint primary key,
+    name        varchar(100),
+    type        varchar(20),
+    species     varchar(20),
+    age         int,
+    gender      varchar(20),
+    animalState varchar(20),
+    province    varchar(30),
+    city        varchar(30),
+    needCardNum int,
+    description varchar(200),
+        createTime       datetime,
+    modifyTime       datetime,
+    modifier         varchar(65)
+)

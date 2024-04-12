@@ -2,10 +2,10 @@ package com.hellen.enum_;
 
 public enum MessageType {
 
-    IMG(1),
-    TEXT(0);
-    private int code;
-    private MessageType(int code){
+    IMG("IMG"),
+    TEXT("TEXT");
+    private String code;
+    private MessageType(String code){
         this.code=code;
     }
 }

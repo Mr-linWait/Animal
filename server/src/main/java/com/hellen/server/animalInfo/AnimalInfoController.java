@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("animalInfo")
+@CrossOrigin
 public class AnimalInfoController {
 
     @Resource
