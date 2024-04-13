@@ -16,4 +16,9 @@ public interface UserService extends IService<User> {
     boolean modifyUserInfoById(User userInfo);
 
     IPage<User> selectPageUserInfo(Page<User> userPage, User userParam);
+
+    User Adminlogin(String account,String password);
+
+    int deleteUser(Long userId);
+
 }

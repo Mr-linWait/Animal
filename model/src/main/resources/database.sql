@@ -32,6 +32,7 @@ create table tb_comment
     id         bigint primary key,
     bizId      varchar(65) not null,
     bizType    varchar(20)  not null,
+    userId     int not null,
     comment    nvarchar(100),
     createTime datetime,
     modifyTime datetime,

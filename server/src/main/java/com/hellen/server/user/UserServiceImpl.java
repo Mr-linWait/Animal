@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hellen.base.util.SecurityUtil;
 import com.hellen.entity.manangement.User;
+import com.hellen.enum_.UserType;
 import com.hellen.mapper.UserMapper;
 import com.hellen.result.Result;
 import jakarta.annotation.Resource;
@@ -26,6 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result registUser(User userInfo) {
         userInfoCheck(userInfo);
+        userInfo.setUserType(UserType.User);
         userInfo.setPassword(SecurityUtil.encryptPasswordWithSaltAndSHA256(userInfo.getPassword()));
         if (this.save(userInfo))
             return Result.success();
@@ -44,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User login(String account, String password) {
         User user = new User();
         user.setAccount(account);
+        user.setUserType(UserType.User);
         user.setPassword(SecurityUtil.encryptPasswordWithSaltAndSHA256(password));
         LambdaQueryChainWrapper<User> userLambdaQueryChainWrapper = this.lambdaQuery(user);
         user = userLambdaQueryChainWrapper.one();
@@ -87,6 +90,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userQueryChainWrapper.gt("createTime",userParam.getCreateTime());
         Page<User> iPage = userMapper.selectPage(userPage, userQueryChainWrapper);
         return iPage;
+    }
+
+    @Override
+    public User Adminlogin(String account,String password) {
+        User user = new User();
+        user.setAccount(account);
+        user.setPassword(SecurityUtil.encryptPasswordWithSaltAndSHA256(password));
+        user.setUserType(UserType.Admin);
+        LambdaQueryChainWrapper<User> userLambdaQueryChainWrapper = this.lambdaQuery(user);
+        user = userLambdaQueryChainWrapper.one();
+        return user;
+    }
+
+    @Override
+    public int deleteUser(Long userId) {
+        return userMapper.deleteById(userId);
     }
 
     private static final String LANDLINE_PHONE_REGEX = "^\\(?\\d{3,4}\\)?[- .]?\\d{7,8}$";//固定电话校验

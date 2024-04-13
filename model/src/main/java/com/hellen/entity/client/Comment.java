@@ -12,10 +12,13 @@ import lombok.experimental.Accessors;
 public class Comment {
 
     @TableField
-    private Long bizId;
+    private Long bizId;//动物id
 
     @TableField
     private UserType bizType;
+
+    @TableField
+    private Long userId;//用户id
 
     @TableField
     private String comment;//评论内容
