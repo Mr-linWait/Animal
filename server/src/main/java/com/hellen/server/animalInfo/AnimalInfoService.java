@@ -11,4 +11,9 @@ public interface AnimalInfoService extends IService<Animal> {
     List<Animal> hotAnimalInfoList();
 
     IPage<Animal> selectPageAnimalInfo(Page<Animal> animalPage, Animal animalParam);
+
+    boolean saveAnimalInfo(Animal animalInfo);
+
+    List<Animal> hotSearchAnimal();
+
 }

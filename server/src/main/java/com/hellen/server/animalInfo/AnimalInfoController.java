@@ -22,10 +22,28 @@ public class AnimalInfoController {
         return Result.success(animalList);
     }
 
+    /**
+     * 热门的寻宠信息
+     * @return
+     */
+    @GetMapping("hotSearchAnimal")
+    public Result hotSearchAnimal(){
+        List<Animal> animalList=animalInfoService.hotSearchAnimal();
+        return Result.success(animalList);
+    }
+
     @GetMapping("animalInfoList/{current}/{pageSize}")
     public Result animalInfoList(@RequestParam(required = false) Animal animalParam, @PathVariable Long current,@PathVariable Long pageSize){
         Page<Animal> animalPage = new Page<>(current, pageSize);
         IPage<Animal> animalIPage=animalInfoService.selectPageAnimalInfo(animalPage,animalParam);
         return Result.success(animalIPage);
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody() Animal animalInfo){
+        if(animalInfoService.saveAnimalInfo(animalInfo)){
+            return Result.success();
+        }
+        return Result.fail("保存失败了！");
     }
 }

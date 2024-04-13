@@ -1,12 +1,13 @@
 package com.hellen.entity.client;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hellen.entity.BaseEntity;
 import com.hellen.enum_.AnimalState;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @TableName("tb_animal")
 @Data
@@ -40,8 +41,14 @@ public class Animal extends BaseEntity {
     @TableField
     private String description;//描述
 
+    @TableField
+    private int reward;//寻宠报酬
+
 
     /**/
     @TableField(exist = false)
     private AnimalHealthInfo animalHealthInfo;
+
+    @TableField(exist = false)
+    private List<AnimalImg> animalImgList;
 }

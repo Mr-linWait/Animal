@@ -123,6 +123,7 @@ create table tb_animal
     city        varchar(30),
     needCardNum int,
     description varchar(200),
+    reward int,
         createTime       datetime,
     modifyTime       datetime,
     modifier         varchar(65)
