@@ -18,4 +18,8 @@ public interface AnimalInfoService extends IService<Animal> {
 
 
     Animal getInfoById(Long id);
+
+    IPage<Animal> getSendAnimalInfoList(Page<Animal> animalPage, Animal animalParam);
+
+    IPage<Animal> getSearchAnimalInfoList(Page<Animal> animalPage, Animal animalParam);
 }

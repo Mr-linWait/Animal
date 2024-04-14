@@ -1,5 +1,6 @@
 package com.hellen.server.animalInfo;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
@@ -94,5 +95,55 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
         List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(id);
         animal.setAnimalImgList(animalImgList);
         return animal;
+    }
+
+    @Override
+    public IPage<Animal> getSearchAnimalInfoList(Page<Animal> animalPage, Animal animalParam) {
+        QueryWrapper<Animal> queryWrapper = new QueryWrapper<>();
+        if (animalParam!=null){
+            if (StringUtils.hasText(animalParam.getProvince()))
+                queryWrapper.eq("province",animalParam.getProvince());
+            if (StringUtils.hasText(animalParam.getCity()))
+                queryWrapper.eq("city",animalParam.getCity());
+            if (animalParam.getAge()>0)
+                queryWrapper.eq("age",animalParam.getAge());
+            if (StringUtils.hasText(animalParam.getGender()))
+                queryWrapper.eq("gender",animalParam.getGender());
+        }
+        queryWrapper.eq("animalState","search");
+        List<Animal> animals = animalInfoMapper.selectList(animalPage, queryWrapper);
+        for (Animal animal : animals) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
+            animal.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(animal.getId());
+            animal.setAnimalImgList(animalImgList);
+        }
+        return animalPage.setRecords(animals);
+    }
+
+    @Override
+    public IPage<Animal> getSendAnimalInfoList(Page<Animal> animalPage, Animal animalParam) {
+        QueryWrapper<Animal> queryWrapper = new QueryWrapper<>();
+        if (animalParam!=null){
+            if (StringUtils.hasText(animalParam.getProvince()))
+                queryWrapper.eq("province",animalParam.getProvince());
+            if (StringUtils.hasText(animalParam.getCity()))
+                queryWrapper.eq("city",animalParam.getCity());
+            if (animalParam.getAge()>0)
+                queryWrapper.eq("age",animalParam.getAge());
+            if (StringUtils.hasText(animalParam.getGender()))
+                queryWrapper.eq("gender",animalParam.getGender());
+        }
+        queryWrapper.eq("animalState","send");
+        List<Animal> animals = animalInfoMapper.selectList(animalPage, queryWrapper);
+        for (Animal animal : animals) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
+            animal.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(animal.getId());
+            animal.setAnimalImgList(animalImgList);
+        }
+        return animalPage.setRecords(animals);
     }
 }

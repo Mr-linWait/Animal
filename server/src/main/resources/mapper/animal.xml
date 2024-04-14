@@ -19,6 +19,7 @@
         <result property="modifyTime" column="modifyTime" ></result>
         <result property="reward" column="reward" ></result>
         <association property="animalHealthInfo" resultMap="healthInfo"></association>
+        <collection property="animalImgList" resultMap="animalImg"></collection>
      </resultMap>
     <resultMap id="healthInfo" type="com.hellen.entity.client.AnimalHealthInfo">
         <result property="animalId" column="animalId"></result>
@@ -27,17 +28,23 @@
         <result property="sterilization" column="sterilization"></result>
     </resultMap>
 
+    <resultMap id="animalImg" type="com.hellen.entity.client.AnimalImg">
+        <result property="animalId" column="animalId"></result>
+        <result property="url" column="url"></result>
+        <result property="id" column="img.id"></result>
+    </resultMap>
+
     <insert id="insertHealthInfo">
         insert into tb_animalHealthInfo (id, animalId, sterilization, desinsectization, immune, createTime, modifyTime,
                                          modifier) value (#{id},#{animalId},#{sterilization}.#{desinsectization},#{immune},#{createTime},#{modifyTime},#{modifier})
     </insert>
 
     <select id="hotAnimalInfo" resultMap="animalInfo">
-        select *
+        select animal.*, health.*,img.id,url
         from tb_animal animal
                  left join tb_animalHealthInfo health on health.animalId = animal.id
-                 where animal.animalstate ='send'
-                 limit 5
+                 left join tb_animalImg img on animal.id = img.animalId
+        where animal.animalstate = 'send' limit 5
 
     </select>
     <select id="hotSearchAnimal" resultMap="animalInfo">

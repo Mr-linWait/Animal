@@ -58,4 +58,32 @@ public class AnimalInfoController {
         }
         return Result.success(animal);
     }
+
+    /**
+     * 领养宠物列表
+     * @param animalParam
+     * @param current
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("getSendAnimalInfoList/{current}/{pageSize}")
+    public Result getSendAnimalInfoList(@RequestParam(required = false) Animal animalParam,@PathVariable Long current,@PathVariable Long pageSize){
+        Page<Animal> animalPage = new Page<>(current, pageSize);
+        IPage<Animal> sendAnimalInfoList = animalInfoService.getSendAnimalInfoList(animalPage, animalParam);
+        return Result.success().setData(sendAnimalInfoList);
+    }
+
+    /**
+     * 寻宠列表
+     * @param animalParam
+     * @param current
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("getSearchAnimalInfoList/{current}/{pageSize}")
+    public Result getSearchAnimalInfoList(@RequestParam(required = false) Animal animalParam,@PathVariable Long current,@PathVariable Long pageSize){
+        Page<Animal> animalPage = new Page<>(current, pageSize);
+        IPage<Animal> sendAnimalInfoList = animalInfoService.getSearchAnimalInfoList(animalPage, animalParam);
+        return Result.success().setData(sendAnimalInfoList);
+    }
 }
