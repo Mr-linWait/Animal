@@ -74,9 +74,9 @@ public class UserController {
     }
 
     @GetMapping("getUserList/{current}/{pageSize}")
-    public Result getUserList (@RequestParam(required = false) User userParam,@PathVariable long current,@PathVariable long pageSize){
+    public Result getUserList (@RequestParam(required = false) User user, @PathVariable long current,@PathVariable long pageSize){
         Page<User> userPage = new Page<>(current, pageSize);
-        IPage<User> userIPage=userService.selectPageUserInfo(userPage,userParam);
+        IPage<User> userIPage=userService.selectPageUserInfo(userPage,user);
         return Result.success(userIPage);
     }
 

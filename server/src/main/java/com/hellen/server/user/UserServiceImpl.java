@@ -1,5 +1,6 @@
 package com.hellen.server.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
@@ -81,13 +82,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public IPage<User> selectPageUserInfo(Page<User> userPage, User userParam) {
-        QueryChainWrapper<User> userQueryChainWrapper = new QueryChainWrapper<User>(userMapper);
-        if (StringUtils.hasText(userParam.getUserName()))
-            userQueryChainWrapper.like("username", "%"+userParam.getUserName()+"%");
-        if (StringUtils.hasText(userParam.getAccount()))
-            userQueryChainWrapper.eq("account",userParam.getAccount());
-        if (userParam.getCreateTime()!=null)
-            userQueryChainWrapper.gt("createTime",userParam.getCreateTime());
+        QueryWrapper<User> userQueryChainWrapper = new QueryWrapper<User>();
+        if (userParam !=null) {
+            if (StringUtils.hasText(userParam.getUserName()))
+                userQueryChainWrapper.like("username", "%" + userParam.getUserName() + "%");
+            if (StringUtils.hasText(userParam.getAccount()))
+                userQueryChainWrapper.eq("account", userParam.getAccount());
+            if (userParam.getCreateTime() != null)
+                userQueryChainWrapper.gt("createTime", userParam.getCreateTime());
+        }
         Page<User> iPage = userMapper.selectPage(userPage, userQueryChainWrapper);
         return iPage;
     }
