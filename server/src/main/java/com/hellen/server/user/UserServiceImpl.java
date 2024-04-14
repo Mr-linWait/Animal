@@ -30,6 +30,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userInfoCheck(userInfo);
         userInfo.setUserType(UserType.User);
         userInfo.setPassword(SecurityUtil.encryptPasswordWithSaltAndSHA256(userInfo.getPassword()));
+        userInfo.setModifier("this is new User");
         if (this.save(userInfo))
             return Result.success();
         return Result.fail("注册失败！");

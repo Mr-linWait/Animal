@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("regist")
-    public Result regist(@RequestParam() User userInfo) {
+    public Result regist(@RequestBody User userInfo) {
         if (userInfo == null)
             return Result.fail("注册失败！");
         Result result = userService.registUser(userInfo);
