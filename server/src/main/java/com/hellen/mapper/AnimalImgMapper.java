@@ -9,7 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface AnimalImgMapper extends BaseMapper<AnimalImg> {
-    int batchInsert(@Param("list") List<AnimalImg> animalImgList, @Param("id") Long id);
+    int batchInsert(@Param("list") List<AnimalImg> animalImgList,
+                    @Param("id") Long id,@Param("userId") String userId);
 
     List<AnimalImg> selectListByAnimalId(Long animalId);
 }

@@ -16,3 +16,7 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#图片存储路径
+file:
+  upload:
+    dir: target/classes/static/img

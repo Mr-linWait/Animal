@@ -75,7 +75,7 @@ create table tb_animalImg
 (
     id         bigint primary key,
     animalId   varchar(65)  not null,
-    path       varchar(100) not null,
+    url       varchar(100) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)

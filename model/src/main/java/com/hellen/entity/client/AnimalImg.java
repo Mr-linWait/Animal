@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class AnimalImg extends BaseEntity {
     @TableField
-    private String path;
+    private String url;
 
     @TableField
     @JsonFormat(shape = JsonFormat.Shape.STRING)

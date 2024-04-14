@@ -3,15 +3,15 @@
 <mapper namespace="com.hellen.mapper.AnimalImgMapper">
 
     <resultMap id="animalImg" type="com.hellen.entity.client.AnimalImg">
-        <result property="path" column="path"></result>
+        <result property="url" column="url"></result>
         <result property="animalId" column="animalId"></result>
     </resultMap>
 
     <insert id="batchInsert">
-        insert into tb_animalImg (animalId, path)
+        insert into tb_animalImg (id,animalId, url,modifier)
         values
-        <foreach collection="list" separator=",">
-            (#{id},#{path})
+        <foreach collection="list" separator="," item="item">
+            (#{item.id},#{id},#{item.url},#{userId})
         </foreach>
     </insert>
 

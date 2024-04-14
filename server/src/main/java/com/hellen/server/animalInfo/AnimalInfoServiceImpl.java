@@ -1,12 +1,15 @@
 package com.hellen.server.animalInfo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.AnimalHealthInfo;
 import com.hellen.entity.client.AnimalImg;
+import com.hellen.entity.manangement.User;
 import com.hellen.enum_.AnimalState;
 import com.hellen.mapper.AnimalHealthInfoMapper;
 import com.hellen.mapper.AnimalImgMapper;
@@ -66,8 +69,16 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
         AnimalHealthInfo animalHealthInfo = animalInfo.getAnimalHealthInfo();
         if (animalHealthInfo != null)
             animalHealthInfoMapper.insert(animalHealthInfo.setAnimalId(animalInfo.getId()));
-        if (!CollectionUtils.isEmpty(animalInfo.getAnimalImgList()))
-            animalImgMapper.batchInsert(animalInfo.getAnimalImgList(), animalInfo.getId());
+        if (!CollectionUtils.isEmpty(animalInfo.getAnimalImgList())) {
+            User user = UserUtil.getUser();
+            String userId="";
+            if (user!=null)
+                userId=String.valueOf(user.getId());
+            for (AnimalImg animalImg : animalInfo.getAnimalImgList()) {
+                animalImg.setId(IdWorker.getId());
+            }
+            animalImgMapper.batchInsert(animalInfo.getAnimalImgList(), animalInfo.getId(), userId);
+        }
         return save;
     }
 
