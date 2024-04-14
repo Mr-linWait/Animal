@@ -16,4 +16,6 @@ public interface AnimalInfoService extends IService<Animal> {
 
     List<Animal> hotSearchAnimal();
 
+
+    Animal getInfoById(Long id);
 }

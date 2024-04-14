@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellen.mapper.AnimalHealthInfoMapper">
+
+
+    <resultMap id="healthInfo" type="com.hellen.entity.client.AnimalHealthInfo">
+        <result property="animalId" column="animalId"></result>
+        <result property="desinsectization" column="desinsectization"></result>
+        <result property="immune" column="immune"></result>
+        <result property="sterilization" column="sterilization"></result>
+    </resultMap>
+
+    <select id="selectByAnimalId" resultMap="healthInfo">
+        select *
+        from tb_animalHealthInfo health
+        where animalId = #{animalId}
+
+    </select>
+
+
+</mapper>

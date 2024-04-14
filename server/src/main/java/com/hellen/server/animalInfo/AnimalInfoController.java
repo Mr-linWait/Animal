@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("animalInfo")
@@ -45,5 +46,14 @@ public class AnimalInfoController {
             return Result.success();
         }
         return Result.fail("保存失败了！");
+    }
+
+    @GetMapping("/get/{id}")
+    public Result getById( @PathVariable Long id) {
+        Animal animal = animalInfoService.getInfoById(id);
+        if (Objects.isNull(animal)) {
+            return Result.fail("请选择正确的！");
+        }
+        return Result.success(animal);
     }
 }

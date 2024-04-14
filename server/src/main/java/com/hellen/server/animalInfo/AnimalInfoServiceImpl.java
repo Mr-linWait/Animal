@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.AnimalHealthInfo;
+import com.hellen.entity.client.AnimalImg;
 import com.hellen.enum_.AnimalState;
 import com.hellen.mapper.AnimalHealthInfoMapper;
 import com.hellen.mapper.AnimalImgMapper;
@@ -16,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal> implements AnimalInfoService {
@@ -58,7 +60,7 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
 
     @Override
     public boolean saveAnimalInfo(Animal animalInfo) {
-        if (animalInfo.getAnimalHealthInfo() == null && animalInfo.getAnimalState()== AnimalState.send)
+        if (animalInfo.getAnimalHealthInfo() == null && animalInfo.getAnimalState() == AnimalState.send)
             return false;
         boolean save = save(animalInfo);
         AnimalHealthInfo animalHealthInfo = animalInfo.getAnimalHealthInfo();
@@ -67,5 +69,19 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
         if (!CollectionUtils.isEmpty(animalInfo.getAnimalImgList()))
             animalImgMapper.batchInsert(animalInfo.getAnimalImgList(), animalInfo.getId());
         return save;
+    }
+
+    @Override
+    public Animal getInfoById(Long id) {
+        Animal animal = animalInfoMapper.selectById(id);
+        if (Objects.isNull(animal)) {
+            return null;
+        }
+        AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(id);
+        animal.setAnimalHealthInfo(animalHealthInfo);
+
+        List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(id);
+        animal.setAnimalImgList(animalImgList);
+        return animal;
     }
 }
