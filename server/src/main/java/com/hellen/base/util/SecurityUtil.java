@@ -17,9 +17,25 @@ public class SecurityUtil {
     public static String encryptPasswordWithSaltAndSHA256(String password) {
         try {
             // 生成随机盐值
-            SecureRandom random = new SecureRandom();
+
             byte[] salt = new byte[16]; // 通常盐值长度为16或更多字节
-            random.nextBytes(salt);
+            salt[0] = 'h';
+            salt[1] = 'a';
+            salt[2] = '1';
+            salt[3] = 'a';
+            salt[4] = 'a';
+            salt[5] = '2';
+            salt[6] = 'a';
+            salt[7] = 'a';
+            salt[8] = 'b';
+            salt[9] = 'a';
+            salt[10] = 'a';
+            salt[1] = 't';
+            salt[12] = 'a';
+            salt[13] = 'a';
+            salt[14] = '5';
+            salt[15] = 'm';
+
 
             // 创建SHA-256消息摘要对象
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -32,8 +48,6 @@ public class SecurityUtil {
 
             // 将盐值和二进制散列值分别转换为十六进制字符串
             StringBuilder sb = new StringBuilder();
-            sb.append(toHex(salt));
-            sb.append(':');
             for (byte b : hashBytes) {
                 sb.append(String.format("%02x", b));
             }
@@ -57,7 +71,8 @@ public class SecurityUtil {
 
     /**
      * 比较密码是否相同
-     * @param originalPassword 用户当前输入的密码
+     *
+     * @param originalPassword     用户当前输入的密码
      * @param saltedHashedPassword 用户存在数据库的密码
      * @return
      */
@@ -66,5 +81,10 @@ public class SecurityUtil {
             return true;
         else
             return false;
+    }
+
+    public static void main(String[] args) {
+        SecurityUtil securityUtil = new SecurityUtil();
+        System.out.println(securityUtil.encryptPasswordWithSaltAndSHA256("123456"));
     }
 }

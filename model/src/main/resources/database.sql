@@ -3,7 +3,7 @@ create table tb_user
     id         bigint primary key,
     account    varchar(20) not null,
     userName   varchar(20),
-    password   varchar(20) not null,
+    password   varchar(64) not null,
     tel        varchar(20),
     address    varchar(30),
     email      varchar(20),
@@ -93,23 +93,6 @@ create table tb_animalHealthInfo
     modifier         varchar(65)
 );
 
-create table tb_user
-(
-    id          bigint primary key,
-    name        varchar(20) not null,
-    type        varchar(20),
-    species     varchar(20),
-    age         int,
-    gender      varchar(20),
-    animalState varchar(20),
-    province    varchar(20),
-    city        varchar(20),
-    needCardNum int,
-    description varchar(100),
-    createTime  datetime,
-    modifyTime  datetime,
-    modifier    varchar(65)
-);
 
 create table tb_animal
 (

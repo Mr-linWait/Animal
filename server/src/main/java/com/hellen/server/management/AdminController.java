@@ -15,17 +15,18 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("admin")
+@CrossOrigin
 public class AdminController {
 
     @Resource
     private UserService userService;
 
-    @GetMapping("/adminLogin")
-    public Result adminLogin(@RequestParam() User user, HttpServletRequest request){
-        if (StringUtils.hasText(user.getAccount()) || StringUtils.hasText(user.getPassword()))
+    @GetMapping("/adminLogin/{account}/{password}")
+    public Result adminLogin(@PathVariable String account,@PathVariable String password, HttpServletRequest request){
+        if ( !StringUtils.hasText(account) || !StringUtils.hasText(password))
             return Result.fail(ResultCodeEnum.PARAM_ERROR);
-        User adminlogin = userService.Adminlogin(user.getAccount(), user.getPassword());
-        if (user!=null){
+        User adminlogin = userService.Adminlogin(account,password);
+        if (adminlogin!=null){
             HttpSession session = request.getSession(true);
             session.setAttribute("loginUser",adminlogin);
             return Result.success("登录成功！");
