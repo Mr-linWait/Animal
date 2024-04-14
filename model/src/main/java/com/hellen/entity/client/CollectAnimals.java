@@ -2,6 +2,7 @@ package com.hellen.entity.client;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hellen.entity.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -15,9 +16,11 @@ import lombok.experimental.Accessors;
 public class CollectAnimals extends BaseEntity {
 
     @TableField
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long animalId;
 
     @TableField
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
 
 }

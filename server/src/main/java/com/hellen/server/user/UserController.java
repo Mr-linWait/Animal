@@ -2,6 +2,7 @@ package com.hellen.server.user;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.manangement.User;
 import com.hellen.enum_.ResultCodeEnum;
 import com.hellen.result.Result;
@@ -32,8 +33,7 @@ public class UserController {
         User loginUser = userService.login(account, password);
         if (loginUser != null) {
             USER_INFO.set(loginUser);
-            HttpSession session = request.getSession(true);
-            session.setAttribute("loginUser", loginUser);
+            UserUtil.setActiveUser(loginUser.getId(), loginUser);
         } else
             return Result.fail(ResultCodeEnum.NOT_REGIST);
         return Result.success(loginUser);
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("regist")
-    public Result regist(@RequestBody User userInfo) {
+    public Result regist(@RequestBody() User userInfo) {
         if (userInfo == null)
             return Result.fail("注册失败！");
         Result result = userService.registUser(userInfo);

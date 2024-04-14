@@ -2,6 +2,7 @@ package com.hellen.entity.client;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hellen.entity.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,6 +15,7 @@ public class AnimalImg extends BaseEntity {
     private String path;
 
     @TableField
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long animalId;
 
 

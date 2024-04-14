@@ -2,7 +2,9 @@ package com.hellen.server.animalInfo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.client.Animal;
+import com.hellen.entity.manangement.User;
 import com.hellen.result.Result;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;

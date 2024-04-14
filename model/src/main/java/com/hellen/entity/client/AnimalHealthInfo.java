@@ -2,6 +2,7 @@ package com.hellen.entity.client;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hellen.entity.BaseEntity;
 import com.hellen.enum_.TrueOrFalse;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
 public class AnimalHealthInfo extends BaseEntity {
 
     @TableField
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long animalId;
 
     @TableField

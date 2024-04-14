@@ -25,6 +25,7 @@ public class BaseEntity {
     private LocalDateTime modifyTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String modifier;
 
 

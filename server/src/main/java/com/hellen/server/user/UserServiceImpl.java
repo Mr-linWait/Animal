@@ -28,11 +28,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Result registUser(User userInfo) {
         userInfoCheck(userInfo);
+        //用户名不能重复
+        QueryWrapper<User> account = new QueryWrapper<User>().eq("account", userInfo.getAccount());
+        User user = userMapper.selectOne(account,false);
+        if (user!=null)
+            return Result.fail("该账户名已经被注册！");
         userInfo.setUserType(UserType.User);
         userInfo.setPassword(SecurityUtil.encryptPasswordWithSaltAndSHA256(userInfo.getPassword()));
         userInfo.setModifier("this is new User");
         if (this.save(userInfo))
-            return Result.success();
+            return Result.success().setData(userInfo.setPassword(""));
         return Result.fail("注册失败！");
     }
 

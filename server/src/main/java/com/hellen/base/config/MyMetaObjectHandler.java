@@ -1,6 +1,7 @@
 package com.hellen.base.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.manangement.User;
 import com.hellen.server.user.UserController;
 import org.apache.ibatis.reflection.MetaObject;
@@ -14,7 +15,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
-        User user = UserController.USER_INFO.get();
+        User user = UserUtil.getUser();
         String modifier ;
         if (user!=null)
             modifier=String.valueOf(user.getId());
@@ -26,7 +27,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        User user = UserController.USER_INFO.get();
+        User user = UserUtil.getUser();
         String modifier ;
         if (user!=null)
             modifier=String.valueOf(user.getId());
