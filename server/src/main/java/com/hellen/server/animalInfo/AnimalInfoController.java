@@ -45,7 +45,7 @@ public class AnimalInfoController {
     @PostMapping("/add")
     public Result add(@RequestBody() Animal animalInfo){
         if(animalInfoService.saveAnimalInfo(animalInfo)){
-            return Result.success();
+            return Result.success(animalInfo);
         }
         return Result.fail("保存失败了！");
     }
