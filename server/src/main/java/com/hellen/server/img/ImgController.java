@@ -55,7 +55,7 @@ public class ImgController {
         // 构建响应
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/static/img/")
-                .path(file.getOriginalFilename())
+                .path(uniqueFileName)
                 .toUriString();
 
         AnimalImg animalImg = new AnimalImg().setUrl(imageUrl);
