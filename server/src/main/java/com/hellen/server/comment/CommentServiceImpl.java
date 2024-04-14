@@ -3,16 +3,25 @@ package com.hellen.server.comment;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hellen.base.util.UserUtil;
+import com.hellen.entity.BaseEntity;
+import com.hellen.entity.client.Animal;
+import com.hellen.entity.client.AnimalImg;
 import com.hellen.entity.client.Comment;
 import com.hellen.entity.manangement.User;
 import com.hellen.enum_.UserType;
+import com.hellen.mapper.AnimalImgMapper;
+import com.hellen.mapper.AnimalInfoMapper;
 import com.hellen.mapper.CommentMapper;
 import com.hellen.server.user.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
@@ -22,6 +31,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private AnimalImgMapper animalImgMapper;
+    @Autowired
+    private AnimalInfoMapper animalInfoMapper;
 
     @Override
     public int addComment(String comment, Long bizId) {
@@ -44,9 +58,42 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentQueryWrapper.setEntity(comment);
         List<Comment> comments = commentMapper.selectList(commentQueryWrapper);
         for (Comment c : comments) {
-            if (c.getUserId()!=null){
+            if (c.getUserId() != null) {
                 User byId = userService.getById(c.getUserId());
                 c.setUsername(byId.getUserName());
+            }
+        }
+        return comments;
+    }
+
+    public List<Comment> getCommentByUserId(Long userId) {
+        //user_petList
+        Animal animal = new Animal();
+        animal.setAge(null);
+        animal.setReward(null);
+        animal.setModifier(userId.toString());
+        QueryWrapper<Animal> animalQueryWrapper = new QueryWrapper<>();
+        animalQueryWrapper.setEntity(animal);
+        List<Animal> animals = animalInfoMapper.selectList(animalQueryWrapper);
+        if (animals.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Long> animalIds = animals.stream().map(BaseEntity::getId).collect(Collectors.toList());
+
+        QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
+        commentQueryWrapper.orderByDesc("createTime");
+        commentQueryWrapper.ne("userId", userId);
+        commentQueryWrapper.in("bizId", animalIds);
+        List<Comment> comments = commentMapper.selectList(commentQueryWrapper);
+        for (Comment c : comments) {
+            if (c.getUserId() != null) {
+                User byId = userService.getById(c.getUserId());
+                c.setUsername(byId.getUserName());
+            }
+            if (c.getBizId() != null) {
+                List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(c.getBizId());
+                c.setAnimalImgUrl(animalImgList.isEmpty() ? "" : animalImgList.get(0).getUrl());
             }
         }
         return comments;

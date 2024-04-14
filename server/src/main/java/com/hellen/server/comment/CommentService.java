@@ -10,4 +10,5 @@ public interface CommentService extends IService<Comment> {
 
     List<Comment> getCommentByAnimalId(Long animalId);
 
+    List<Comment> getCommentByUserId(Long userId);
 }

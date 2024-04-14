@@ -8,6 +8,8 @@ import com.hellen.enum_.UserType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @TableName("tb_comment")
 @Data
 @Accessors(chain = true)
@@ -29,5 +31,9 @@ public class Comment extends BaseEntity {
 
     @TableField(exist = false)
     private String username;//用户的账户名
+
+    /**/
+    @TableField(exist = false)
+    private String animalImgUrl;
 
 }

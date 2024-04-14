@@ -22,7 +22,7 @@ public class Animal extends BaseEntity {
     private String species;//品种
 
     @TableField
-    private int age;
+    private Integer age;
 
     @TableField
     private String gender;
@@ -42,7 +42,7 @@ public class Animal extends BaseEntity {
     private String description;//描述
 
     @TableField
-    private int reward;//寻宠报酬
+    private Integer reward;//寻宠报酬
 
 
     /**/
