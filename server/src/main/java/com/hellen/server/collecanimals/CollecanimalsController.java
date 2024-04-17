@@ -5,9 +5,9 @@ import com.hellen.entity.client.CollectAnimals;
 import com.hellen.entity.manangement.User;
 import com.hellen.result.Result;
 import jakarta.annotation.Resource;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -44,5 +44,15 @@ public class CollecanimalsController {
         if (collecanimalsService.cancel(collectAnimals))
             return Result.success();
         return Result.fail("删除失败");
+    }
+
+    @GetMapping("getCollectionInMessageList")
+    public Result getCollectionInMessageList() {
+        User user = UserUtil.getUser();
+        if (Objects.isNull(user)) {
+            return Result.fail("请登录！");
+        }
+        List<CollectAnimals> list = collecanimalsService.getCollectionInMessageList(user.getId());
+        return Result.success(list);
     }
 }

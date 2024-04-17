@@ -1,28 +1,31 @@
 package com.hellen.server.collecanimals;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hellen.entity.BaseEntity;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.CollectAnimals;
+import com.hellen.entity.manangement.User;
 import com.hellen.mapper.AnimalInfoMapper;
 import com.hellen.mapper.CollecanimalsMapper;
-import com.hellen.server.animalInfo.AnimalInfoService;
+import com.hellen.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, CollectAnimals> implements CollecanimalsService {
 
     private final CollecanimalsMapper collecanimalsMapper;
+    private final AnimalInfoMapper animalInfoMapper;
+    private final UserMapper userMapper;
 
-    public CollecanimalsServiceImpl(@Qualifier("collecanimalsMapper") CollecanimalsMapper collecanimalsMapper) {
+    public CollecanimalsServiceImpl(@Qualifier("collecanimalsMapper") CollecanimalsMapper collecanimalsMapper, AnimalInfoMapper animalInfoMapper, UserMapper userMapper) {
         this.collecanimalsMapper = collecanimalsMapper;
+        this.animalInfoMapper = animalInfoMapper;
+        this.userMapper = userMapper;
     }
 
     public CollectAnimals getByOtherId(Long userId, Long animalsId) {
@@ -41,4 +44,39 @@ public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, C
         QueryWrapper<CollectAnimals> wrapper = new QueryWrapper<>(collectAnimals);
         return collecanimalsMapper.delete(wrapper) == 1;
     }
+
+    public List<CollectAnimals> getCollectionInMessageList(Long userId) {
+        //user_petList
+        Animal animalParam = new Animal();
+        animalParam.setAge(null);
+        animalParam.setReward(null);
+        animalParam.setModifier(userId.toString());
+        QueryWrapper<Animal> animalQueryWrapper = new QueryWrapper<>();
+        animalQueryWrapper.setEntity(animalParam);
+        List<Animal> animals = animalInfoMapper.selectList(animalQueryWrapper);
+        if (animals.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Long> animalIds = animals.stream().map(BaseEntity::getId).collect(Collectors.toList());
+
+        QueryWrapper<CollectAnimals> wrapper = new QueryWrapper<>();
+        wrapper.in("animalId", animalIds);
+        wrapper.ne("userId", userId);
+        List<CollectAnimals> collectAnimals = collecanimalsMapper.selectList(wrapper);
+        for (CollectAnimals collectAnimal : collectAnimals) {
+            if (Objects.nonNull(collectAnimal.getUserId())) {
+                User user = userMapper.selectById(collectAnimal.getUserId());
+                collectAnimal.setUserName(user.getUserName());
+            }
+            if (Objects.nonNull(collectAnimal.getAnimalId())) {
+                Animal animal = animalInfoMapper.selectById(collectAnimal.getAnimalId());
+                collectAnimal.setAnimalName(animal.getName());
+            }
+        }
+
+        return collectAnimals;
+    }
+
+
 }
