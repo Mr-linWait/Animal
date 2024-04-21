@@ -14,4 +14,7 @@ public interface CollecanimalsService extends IService<CollectAnimals> {
 
     List<CollectAnimals> getCollectionInMessageList(Long userId);
 
+    List<Animal> getCollectionList();
+
+
 }

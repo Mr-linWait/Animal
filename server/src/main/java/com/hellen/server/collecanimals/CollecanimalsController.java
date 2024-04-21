@@ -1,6 +1,7 @@
 package com.hellen.server.collecanimals;
 
 import com.hellen.base.util.UserUtil;
+import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.CollectAnimals;
 import com.hellen.entity.manangement.User;
 import com.hellen.result.Result;
@@ -54,5 +55,14 @@ public class CollecanimalsController {
         }
         List<CollectAnimals> list = collecanimalsService.getCollectionInMessageList(user.getId());
         return Result.success(list);
+    }
+
+    /**
+     * 获取我的收藏宠物
+     */
+    @GetMapping("getCollectionList")
+    public Result getCollectionList(){
+        List<Animal> collectionList=collecanimalsService.getCollectionList();
+        return Result.success(collectionList);
     }
 }

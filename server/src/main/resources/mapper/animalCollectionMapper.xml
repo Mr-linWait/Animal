@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellen.mapper.CollecanimalsMapper">
+
+    <select id="getCollectionList" resultMap="com.hellen.mapper.AnimalInfoMapper.animalInfo" >
+
+        select animal.*, health.*, img.id, url
+        from tb_collecanimals ca
+                 left join tb_animal animal on animal.id = ca.animalId
+                 left join tb_animalHealthInfo health on health.animalId = animal.id
+                 left join tb_animalImg img on img.animalId = animal.id
+        where ca.userid=#{id}
+          and animal.state = 1
+    </select>
+</mapper>

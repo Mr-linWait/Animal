@@ -10,17 +10,17 @@
         <result property="description" column="description"></result>
         <result column="gender" property="gender"></result>
         <result property="name" column="name"></result>
-        <result property="needCardNum" column="needCardNum" ></result>
-        <result property="province" column="province" ></result>
-        <result property="species" column="species" ></result>
+        <result property="state" column="state"></result>
+        <result property="province" column="province"></result>
+        <result property="species" column="species"></result>
         <result property="type" column="type"></result>
-        <result property="createTime" column="createTime" ></result>
+        <result property="createTime" column="createTime"></result>
         <result property="modifier" column="modifier"></result>
-        <result property="modifyTime" column="modifyTime" ></result>
-        <result property="reward" column="reward" ></result>
+        <result property="modifyTime" column="modifyTime"></result>
+        <result property="reward" column="reward"></result>
         <association property="animalHealthInfo" resultMap="healthInfo"></association>
         <collection property="animalImgList" resultMap="animalImg"></collection>
-     </resultMap>
+    </resultMap>
     <resultMap id="healthInfo" type="com.hellen.entity.client.AnimalHealthInfo">
         <result property="animalId" column="animalId"></result>
         <result property="desinsectization" column="desinsectization"></result>
@@ -40,7 +40,7 @@
     </insert>
 
     <select id="hotAnimalInfo" resultMap="animalInfo">
-        select animal.*, health.*,img.id,url
+        select animal.*, health.*, img.id, url
         from tb_animal animal
                  left join tb_animalHealthInfo health on health.animalId = animal.id
                  left join tb_animalImg img on animal.id = img.animalId
@@ -51,9 +51,8 @@
         select *
         from tb_animal animal
                  left join tb_animalHealthInfo health on health.animalId = animal.id
-        where animal.animalstate ='search'
-        order by reward desc
-            limit 5
+        where animal.animalstate = 'search'
+        order by reward desc limit 5
     </select>
 
 </mapper>

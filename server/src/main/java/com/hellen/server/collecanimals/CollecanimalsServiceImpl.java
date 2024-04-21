@@ -2,6 +2,7 @@ package com.hellen.server.collecanimals;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.BaseEntity;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.CollectAnimals;
@@ -50,7 +51,7 @@ public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, C
         Animal animalParam = new Animal();
         animalParam.setAge(null);
         animalParam.setReward(null);
-        animalParam.setModifier(userId.toString());
+        animalParam.setModifier(String.valueOf(userId));
         QueryWrapper<Animal> animalQueryWrapper = new QueryWrapper<>();
         animalQueryWrapper.setEntity(animalParam);
         List<Animal> animals = animalInfoMapper.selectList(animalQueryWrapper);
@@ -79,4 +80,10 @@ public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, C
     }
 
 
+    @Override
+    public List<Animal> getCollectionList() {
+        User user = UserUtil.getUser();
+        List<Animal> animalList=collecanimalsMapper.getCollectionList(user.getId());
+        return animalList;
+    }
 }

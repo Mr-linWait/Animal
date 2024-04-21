@@ -19,7 +19,7 @@ create table tb_message
     id           bigint primary key,
     addresserId  varchar(65) not null,
     recipientsId varchar(65) not null,
-    messageState varchar(20)  not null,
+    messageState varchar(20) not null,
     content      nvarchar(1000),
     messageType  varchar(20),
     createTime   datetime,
@@ -31,8 +31,8 @@ create table tb_comment
 (
     id         bigint primary key,
     bizId      varchar(65) not null,
-    bizType    varchar(20)  not null,
-    userId     bigint ,
+    bizType    varchar(20) not null,
+    userId     bigint,
     comment    nvarchar(100),
     createTime datetime,
     modifyTime datetime,
@@ -54,7 +54,7 @@ create table tb_animalSearch
     id         bigint primary key,
     animalId   varchar(65) not null,
     applyId    varchar(65) not null,
-    applyState varchar(20)  not null,
+    applyState varchar(20) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -65,7 +65,7 @@ create table tb_animalAdoption
     id         bigint primary key,
     animalId   varchar(65) not null,
     applyId    varchar(65) not null,
-    applyState varchar(20)  not null,
+    applyState varchar(20) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -75,7 +75,7 @@ create table tb_animalImg
 (
     id         bigint primary key,
     animalId   varchar(65)  not null,
-    url       varchar(100) not null,
+    url        varchar(100) not null,
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
@@ -85,9 +85,9 @@ create table tb_animalHealthInfo
 (
     id               bigint primary key,
     animalId         varchar(65) not null,
-    sterilization    varchar(20)  not null,
-    desinsectization varchar(20)  not null,
-    immune           varchar(20)  not null,
+    sterilization    varchar(20) not null,
+    desinsectization varchar(20) not null,
+    immune           varchar(20) not null,
     createTime       datetime,
     modifyTime       datetime,
     modifier         varchar(65)
@@ -105,10 +105,10 @@ create table tb_animal
     animalState varchar(20),
     province    varchar(30),
     city        varchar(30),
-    needCardNum int,
+    state int,
     description varchar(200),
-    reward int,
-        createTime       datetime,
-    modifyTime       datetime,
-    modifier         varchar(65)
+    reward      int,
+    createTime  datetime,
+    modifyTime  datetime,
+    modifier    varchar(65)
 )
