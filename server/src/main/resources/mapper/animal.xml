@@ -44,15 +44,22 @@
         from tb_animal animal
                  left join tb_animalHealthInfo health on health.animalId = animal.id
                  left join tb_animalImg img on animal.id = img.animalId
-        where animal.animalstate = 'send' limit 5
+        where animal.animalstate = 'send' and animal.state=1 limit 5
 
     </select>
     <select id="hotSearchAnimal" resultMap="animalInfo">
         select *
         from tb_animal animal
                  left join tb_animalHealthInfo health on health.animalId = animal.id
-        where animal.animalstate = 'search'
+        where animal.animalstate = 'search' and animal.state=1
         order by reward desc limit 5
+    </select>
+
+    <select id="animalList" resultMap="animalInfo">
+        select animal.*, health.*, img.id, url
+        from tb_animal animal
+                 left join tb_animalHealthInfo health on health.animalId = animal.id
+                 left join tb_animalImg img on animal.id = img.animalId
     </select>
 
 </mapper>

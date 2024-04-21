@@ -16,4 +16,6 @@ public interface AnimalInfoMapper extends BaseMapper<Animal> {
     int  insertHealthInfo(AnimalHealthInfo animalHealthInfo);
 
     List<Animal> hotSearchAnimal();
+
+    List<Animal> animalList();
 }

@@ -22,4 +22,11 @@ public interface AnimalInfoService extends IService<Animal> {
     IPage<Animal> getSendAnimalInfoList(Page<Animal> animalPage, Animal animalParam);
 
     IPage<Animal> getSearchAnimalInfoList(Page<Animal> animalPage, Animal animalParam);
+
+    boolean approvalAnimal(Long animalId);
+
+    boolean rejectAnimal(Long animalId);
+
+    List<Animal> animalList();
+
 }

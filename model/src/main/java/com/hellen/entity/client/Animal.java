@@ -36,7 +36,7 @@ public class Animal extends BaseEntity {
     private String city;
 
     @TableField
-    private Integer state;//宠物状态 0为未审核 1 审核通过
+    private Integer state;//宠物状态 0为未审核 1 审核通过 -1 驳回
 
     @TableField
     private String description;//描述

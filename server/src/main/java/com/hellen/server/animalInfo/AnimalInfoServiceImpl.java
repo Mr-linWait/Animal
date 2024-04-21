@@ -146,4 +146,23 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
         }
         return animalPage.setRecords(animals);
     }
+
+    @Override
+    public boolean approvalAnimal(Long animalId) {
+        Animal animal = new Animal().setState(1);animal.setId(animalId);
+        boolean b = updateById(animal);
+        return b;
+    }
+
+    @Override
+    public boolean rejectAnimal(Long animalId) {
+        Animal animal = new Animal().setState(-1);animal.setId(animalId);
+        boolean b = updateById(animal);
+        return b;
+    }
+
+    @Override
+    public List<Animal> animalList() {
+        return animalInfoMapper.animalList();
+    }
 }
