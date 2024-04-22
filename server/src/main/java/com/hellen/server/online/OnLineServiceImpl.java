@@ -7,8 +7,10 @@ import com.hellen.entity.manangement.User;
 import com.hellen.enum_.MessageState;
 import com.hellen.enum_.MessageType;
 import com.hellen.mapper.OnLineMapper;
+import com.hellen.mapper.UserMapper;
 import com.hellen.server.user.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +25,8 @@ public class OnLineServiceImpl extends ServiceImpl<OnLineMapper, Message> implem
 
     @Resource
     private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
 
 
     /**
@@ -34,6 +38,8 @@ public class OnLineServiceImpl extends ServiceImpl<OnLineMapper, Message> implem
     @Override
     public List<Message> getUserMessage(Long addresserId, Long recipientsId) {
         List<Message> newMessage = onLineMapper.getNewMessage(addresserId, recipientsId);
+        User recipientsUser = userMapper.selectById(recipientsId);
+        newMessage.forEach(data-> data.setRecipientsName(recipientsUser.getUserName()));
         return newMessage;
     }
 

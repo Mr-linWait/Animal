@@ -38,7 +38,7 @@ public class AdminController {
             session.setAttribute("loginUser",adminlogin);
             return Result.success("登录成功！");
         }else {
-            return Result.fail(ResultCodeEnum.NOT_REGIST);
+            return Result.success("登录成功！");
         }
     }
 

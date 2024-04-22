@@ -80,6 +80,13 @@ public class UserController {
         return Result.success(userIPage);
     }
 
+    @GetMapping("/get/{id}")
+    public Result get(@PathVariable Long id){
+        User user = userService.getById(id);
+        user.setPassword(null);
+        return Result.success(user);
+    }
+
 
 
 }
