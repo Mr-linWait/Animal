@@ -6,7 +6,7 @@ create table tb_user
     password   varchar(64) not null,
     tel        varchar(20),
     address    varchar(30),
-    email      varchar(20),
+    email      varchar(50),
     signature  varchar(20),
     userType   varchar(20),
     createTime datetime,
@@ -111,4 +111,11 @@ create table tb_animal
     createTime  datetime,
     modifyTime  datetime,
     modifier    varchar(65)
+)
+
+create table tb_code(
+    email varchar(30),
+    code varchar(20),
+    createTime datetime
+                    primary key (email,code)
 )

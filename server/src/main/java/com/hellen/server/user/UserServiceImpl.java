@@ -16,6 +16,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -115,6 +116,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int deleteUser(Long userId) {
         return userMapper.deleteById(userId);
+    }
+
+    @Override
+    public boolean checkCode(String eamil, String code) {
+        LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(3);
+        return userMapper.checkCode(eamil,code,localDateTime) > 0;
+    }
+
+    @Override
+    public void insertCode(String email, String code) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        userMapper.insertCode(email,code,localDateTime);
     }
 
     private static final String LANDLINE_PHONE_REGEX = "^\\(?\\d{3,4}\\)?[- .]?\\d{7,8}$";//固定电话校验

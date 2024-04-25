@@ -6,11 +6,26 @@ server:
       enabled: true
       force: true
 spring:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username:
+    password:
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
   datasource:
     url: jdbc:mysql://localhost:3306/animal
     username: root
     ##你的密码
-    password: sntanya615720
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
   configuration:
@@ -20,3 +35,4 @@ mybatis-plus:
 file:
   upload:
     dir: target/classes/static/img
+

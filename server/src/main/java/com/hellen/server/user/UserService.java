@@ -21,4 +21,7 @@ public interface UserService extends IService<User> {
 
     int deleteUser(Long userId);
 
+    boolean checkCode(String eamil, String code);
+
+    void insertCode(String email, String code);
 }
