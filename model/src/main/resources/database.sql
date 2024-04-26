@@ -116,6 +116,6 @@ create table tb_animal
 create table tb_code(
     email varchar(30),
     code varchar(20),
-    createTime datetime
+    createTime datetime,
                     primary key (email,code)
 )

@@ -162,7 +162,16 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
     }
 
     @Override
-    public List<Animal> animalList() {
-        return animalInfoMapper.animalList();
+    public List<Animal> animalList(Page<Animal> animalPage ) {
+        List<Animal> animalList = animalInfoMapper.selectList(animalPage, new QueryWrapper<>());
+
+        for (Animal animal : animalList) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
+            animal.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(animal.getId());
+            animal.setAnimalImgList(animalImgList);
+        }
+        return animalList;
     }
 }
