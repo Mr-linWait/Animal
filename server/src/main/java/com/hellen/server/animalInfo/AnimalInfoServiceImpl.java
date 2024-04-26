@@ -72,9 +72,9 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
             animalHealthInfoMapper.insert(animalHealthInfo.setAnimalId(animalInfo.getId()));
         if (!CollectionUtils.isEmpty(animalInfo.getAnimalImgList())) {
             User user = UserUtil.getUser();
-            String userId="";
-            if (user!=null)
-                userId=String.valueOf(user.getId());
+            String userId = "";
+            if (user != null)
+                userId = String.valueOf(user.getId());
             for (AnimalImg animalImg : animalInfo.getAnimalImgList()) {
                 animalImg.setId(IdWorker.getId());
             }
@@ -100,17 +100,18 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
     @Override
     public IPage<Animal> getSearchAnimalInfoList(Page<Animal> animalPage, Animal animalParam) {
         QueryWrapper<Animal> queryWrapper = new QueryWrapper<>();
-        if (animalParam!=null){
+        if (animalParam != null) {
             if (StringUtils.hasText(animalParam.getProvince()))
-                queryWrapper.eq("province",animalParam.getProvince());
+                queryWrapper.eq("province", animalParam.getProvince());
             if (StringUtils.hasText(animalParam.getCity()))
-                queryWrapper.eq("city",animalParam.getCity());
-            if (animalParam.getAge()>0)
-                queryWrapper.eq("age",animalParam.getAge());
-            if (StringUtils.hasText(animalParam.getGender()))
-                queryWrapper.eq("gender",animalParam.getGender());
+                queryWrapper.eq("city", animalParam.getCity());
+            if (animalParam.getAge() != null && animalParam.getAge() > 0)
+                queryWrapper.eq("age", animalParam.getAge());
+            if (StringUtils.hasText(animalParam.getName()))
+                queryWrapper.like("name", "%" + animalParam.getName() + "%");
         }
-        queryWrapper.eq("animalState","search");
+        queryWrapper.eq("animalState", "search");
+        queryWrapper.eq("state", "1");
         List<Animal> animals = animalInfoMapper.selectList(animalPage, queryWrapper);
         for (Animal animal : animals) {
             AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
@@ -125,17 +126,18 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
     @Override
     public IPage<Animal> getSendAnimalInfoList(Page<Animal> animalPage, Animal animalParam) {
         QueryWrapper<Animal> queryWrapper = new QueryWrapper<>();
-        if (animalParam!=null){
+        if (animalParam != null) {
             if (StringUtils.hasText(animalParam.getProvince()))
-                queryWrapper.eq("province",animalParam.getProvince());
+                queryWrapper.eq("province", animalParam.getProvince());
             if (StringUtils.hasText(animalParam.getCity()))
-                queryWrapper.eq("city",animalParam.getCity());
-            if (animalParam.getAge()>0)
-                queryWrapper.eq("age",animalParam.getAge());
-            if (StringUtils.hasText(animalParam.getGender()))
-                queryWrapper.eq("gender",animalParam.getGender());
+                queryWrapper.eq("city", animalParam.getCity());
+            if (animalParam.getAge() != null && animalParam.getAge() > 0)
+                queryWrapper.eq("age", animalParam.getAge());
+            if (StringUtils.hasText(animalParam.getName()))
+                queryWrapper.like("name", "%" + animalParam.getName() + "%");
         }
-        queryWrapper.eq("animalState","send");
+        queryWrapper.eq("animalState", "send");
+        queryWrapper.eq("state", "1");
         List<Animal> animals = animalInfoMapper.selectList(animalPage, queryWrapper);
         for (Animal animal : animals) {
             AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
@@ -149,20 +151,22 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
 
     @Override
     public boolean approvalAnimal(Long animalId) {
-        Animal animal = new Animal().setState(1);animal.setId(animalId);
+        Animal animal = new Animal().setState(1);
+        animal.setId(animalId);
         boolean b = updateById(animal);
         return b;
     }
 
     @Override
     public boolean rejectAnimal(Long animalId) {
-        Animal animal = new Animal().setState(-1);animal.setId(animalId);
+        Animal animal = new Animal().setState(-1);
+        animal.setId(animalId);
         boolean b = updateById(animal);
         return b;
     }
 
     @Override
-    public List<Animal> animalList(Page<Animal> animalPage ) {
+    public List<Animal> animalList(Page<Animal> animalPage) {
         List<Animal> animalList = animalInfoMapper.selectList(animalPage, new QueryWrapper<>());
 
         for (Animal animal : animalList) {

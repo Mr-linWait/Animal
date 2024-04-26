@@ -67,7 +67,7 @@ public class AnimalInfoController {
      * @return
      */
     @GetMapping("getSendAnimalInfoList/{current}/{pageSize}")
-    public Result getSendAnimalInfoList(@RequestParam(required = false) Animal animalParam,@PathVariable Long current,@PathVariable Long pageSize){
+    public Result getSendAnimalInfoList(Animal animalParam,@PathVariable Long current,@PathVariable Long pageSize){
         Page<Animal> animalPage = new Page<>(current, pageSize);
         IPage<Animal> sendAnimalInfoList = animalInfoService.getSendAnimalInfoList(animalPage, animalParam);
         return Result.success().setData(sendAnimalInfoList);
@@ -75,15 +75,15 @@ public class AnimalInfoController {
 
     /**
      * 寻宠列表
-     * @param animalParam
+     * @param animal
      * @param current
      * @param pageSize
      * @return
      */
     @GetMapping("getSearchAnimalInfoList/{current}/{pageSize}")
-    public Result getSearchAnimalInfoList(@RequestParam(required = false) Animal animalParam,@PathVariable Long current,@PathVariable Long pageSize){
+    public Result getSearchAnimalInfoList(@PathVariable Long current,@PathVariable Long pageSize,Animal animal){
         Page<Animal> animalPage = new Page<>(current, pageSize);
-        IPage<Animal> sendAnimalInfoList = animalInfoService.getSearchAnimalInfoList(animalPage, animalParam);
+        IPage<Animal> sendAnimalInfoList = animalInfoService.getSearchAnimalInfoList(animalPage, animal);
         return Result.success().setData(sendAnimalInfoList);
     }
 }
