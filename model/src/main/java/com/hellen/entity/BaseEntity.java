@@ -19,6 +19,7 @@ public class BaseEntity {
     private Long id;
 
     @TableField(fill= FieldFill.INSERT)
+    @JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.UPDATE)

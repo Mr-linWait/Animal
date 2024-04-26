@@ -1,6 +1,8 @@
 package com.hellen.server.comment;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hellen.base.util.UserUtil;
 import com.hellen.entity.BaseEntity;
@@ -12,10 +14,12 @@ import com.hellen.enum_.UserType;
 import com.hellen.mapper.AnimalImgMapper;
 import com.hellen.mapper.AnimalInfoMapper;
 import com.hellen.mapper.CommentMapper;
+import com.hellen.mapper.UserMapper;
 import com.hellen.server.user.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +40,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private AnimalImgMapper animalImgMapper;
     @Autowired
     private AnimalInfoMapper animalInfoMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public int addComment(String comment, Long bizId) {
@@ -97,5 +103,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             }
         }
         return comments;
+    }
+
+    @Override
+    public IPage<Comment> getPage(Page<Comment> page) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        Page<Comment> commentPage = commentMapper.selectPage(page, wrapper);
+        for (Comment record : commentPage.getRecords()) {
+            Animal animal = animalInfoMapper.selectById(record.getBizId());
+            record.setBizName(animal.getName());
+            User user = userMapper.selectById(record.getUserId());
+            record.setUsername(user.getUserName());
+        }
+        return commentPage;
     }
 }

@@ -1,5 +1,7 @@
 package com.hellen.server.comment;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hellen.base.util.UserUtil;
 import com.hellen.entity.client.Comment;
 import com.hellen.entity.manangement.User;
@@ -43,5 +45,18 @@ public class CommentController {
         }
         List<Comment> commentList = commentService.getCommentByUserId(user.getId());
         return Result.success().setData(commentList);
+    }
+
+    @GetMapping("page/{current}/{pageSize}")
+    public Result page(@PathVariable Long current, @PathVariable Long pageSize){
+        Page<Comment> page = new Page<>(current, pageSize);
+        IPage<Comment> result=commentService.getPage(page);
+        return Result.success(result);
+    }
+
+    @DeleteMapping("{id}")
+    public Result delete(@PathVariable Long id) {
+        boolean success = commentService.removeById(id);
+        return success ? Result.success() : Result.fail("删除失败");
     }
 }

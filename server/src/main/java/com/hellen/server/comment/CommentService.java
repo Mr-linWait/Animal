@@ -1,5 +1,7 @@
 package com.hellen.server.comment;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hellen.entity.client.Comment;
 
@@ -11,4 +13,6 @@ public interface CommentService extends IService<Comment> {
     List<Comment> getCommentByAnimalId(Long animalId);
 
     List<Comment> getCommentByUserId(Long userId);
+
+    IPage<Comment> getPage(Page<Comment> page);
 }

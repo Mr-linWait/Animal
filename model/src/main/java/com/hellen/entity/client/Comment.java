@@ -36,4 +36,7 @@ public class Comment extends BaseEntity {
     @TableField(exist = false)
     private String animalImgUrl;
 
+    @TableField(exist = false)
+    private String bizName;
+
 }
