@@ -1,5 +1,6 @@
 package com.hellen.server.management;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.manangement.User;
 import com.hellen.enum_.ResultCodeEnum;
@@ -66,9 +67,11 @@ public class AdminController {
             return Result.fail("驳回失败！");
     }
 
-    @PutMapping("animalList")
-    public Result animalList(){
-        List<Animal> animalList=animalInfoService.animalList();
-        return Result.success(animalList);
+    @GetMapping("animalList/{current}/{pageSize}")
+    public Result animalList(@PathVariable Long current,@PathVariable Long pageSize){
+        Page<Animal> animalPage = new Page<>(current, pageSize);
+        List<Animal> animalList=animalInfoService.animalList(animalPage);
+        animalPage.setRecords(animalList);
+        return Result.success(animalPage);
     }
 }

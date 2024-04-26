@@ -27,6 +27,6 @@ public interface AnimalInfoService extends IService<Animal> {
 
     boolean rejectAnimal(Long animalId);
 
-    List<Animal> animalList();
+    List<Animal> animalList(Page<Animal> animalPage );
 
 }
