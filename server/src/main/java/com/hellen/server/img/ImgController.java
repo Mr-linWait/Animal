@@ -3,6 +3,7 @@ package com.hellen.server.img;
 import com.hellen.entity.client.AnimalImg;
 import com.hellen.result.Result;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,14 +31,15 @@ public class ImgController {
     private String uploadDir;
 
     @PostMapping("upload")
-    public Result upload(MultipartFile file) {
+    public Result upload(MultipartFile file) throws FileNotFoundException {
         if (file.isEmpty()) {
             return Result.fail("图片不能为空！");
         }
 
         String uniqueFileName = FileNameGenerator.generateUniqueFileName(file.getOriginalFilename());
         // 生成保存图片的路径
-        Path destinationFile = Paths.get(uploadDir, uniqueFileName);
+        String filePatch = ResourceUtils.getURL("classpath:").getPath() +"/static" + "/image/";
+        Path destinationFile = Paths.get(filePatch, uniqueFileName);
 
         // 确保目录存在
         try {
@@ -54,7 +57,7 @@ public class ImgController {
 
         // 构建响应
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/static/img/")
+                .path("/image/")
                 .path(uniqueFileName)
                 .toUriString();
 
