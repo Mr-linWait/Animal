@@ -37,9 +37,7 @@ public class AdminController {
         User adminlogin = userService.Adminlogin(account,password);
         if (adminlogin!=null){
             UserUtil.setActiveUser(adminlogin.getId(),adminlogin);
-            HttpSession session = request.getSession(true);
-            session.setAttribute("loginUser",adminlogin);
-            return Result.success("登录成功！");
+            return Result.success(adminlogin);
         }else {
             return Result.success("登录成功！");
         }
