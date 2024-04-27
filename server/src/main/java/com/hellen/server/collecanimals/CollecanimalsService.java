@@ -1,5 +1,7 @@
 package com.hellen.server.collecanimals;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.CollectAnimals;
@@ -14,7 +16,5 @@ public interface CollecanimalsService extends IService<CollectAnimals> {
 
     List<CollectAnimals> getCollectionInMessageList(Long userId);
 
-    List<Animal> getCollectionList();
-
-
+    IPage<Animal> getCollectionList(String animalState, Page<Animal> animalPage);
 }

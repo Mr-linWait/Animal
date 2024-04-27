@@ -4,12 +4,10 @@
 
     <select id="getCollectionList" resultMap="com.hellen.mapper.AnimalInfoMapper.animalInfo" >
 
-        select animal.*, health.*, img.id, url
+        select animal.*
         from tb_collecanimals ca
-                 left join tb_animal animal on animal.id = ca.animalId
-                 left join tb_animalHealthInfo health on health.animalId = animal.id
-                 left join tb_animalImg img on img.animalId = animal.id
-        where ca.userid=#{id}
-          and animal.state = 1
+                 join tb_animal animal on animal.id = ca.animalId
+        where ca.userid = #{userId}
+          and animal.animalState = #{animalState}
     </select>
 </mapper>

@@ -1,15 +1,17 @@
 package com.hellen.server.collecanimals;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hellen.base.util.UserUtil;
 import com.hellen.entity.BaseEntity;
 import com.hellen.entity.client.Animal;
+import com.hellen.entity.client.AnimalHealthInfo;
+import com.hellen.entity.client.AnimalImg;
 import com.hellen.entity.client.CollectAnimals;
 import com.hellen.entity.manangement.User;
-import com.hellen.mapper.AnimalInfoMapper;
-import com.hellen.mapper.CollecanimalsMapper;
-import com.hellen.mapper.UserMapper;
+import com.hellen.mapper.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +24,15 @@ public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, C
     private final CollecanimalsMapper collecanimalsMapper;
     private final AnimalInfoMapper animalInfoMapper;
     private final UserMapper userMapper;
+    private final AnimalHealthInfoMapper animalHealthInfoMapper;
+    private final AnimalImgMapper animalImgMapper;
 
-    public CollecanimalsServiceImpl(@Qualifier("collecanimalsMapper") CollecanimalsMapper collecanimalsMapper, AnimalInfoMapper animalInfoMapper, UserMapper userMapper) {
+    public CollecanimalsServiceImpl(@Qualifier("collecanimalsMapper") CollecanimalsMapper collecanimalsMapper, AnimalInfoMapper animalInfoMapper, UserMapper userMapper, AnimalHealthInfoMapper animalHealthInfoMapper, AnimalImgMapper animalImgMapper) {
         this.collecanimalsMapper = collecanimalsMapper;
         this.animalInfoMapper = animalInfoMapper;
         this.userMapper = userMapper;
+        this.animalHealthInfoMapper = animalHealthInfoMapper;
+        this.animalImgMapper = animalImgMapper;
     }
 
     public CollectAnimals getByOtherId(Long userId, Long animalsId) {
@@ -79,11 +85,17 @@ public class CollecanimalsServiceImpl extends ServiceImpl<CollecanimalsMapper, C
         return collectAnimals;
     }
 
-
     @Override
-    public List<Animal> getCollectionList() {
+    public IPage<Animal> getCollectionList(String animalState, Page<Animal> animalPage) {
         User user = UserUtil.getUser();
-        List<Animal> animalList=collecanimalsMapper.getCollectionList(user.getId());
+        IPage<Animal> animalList = collecanimalsMapper.getCollectionList(animalPage, animalState, user.getId());
+        for (Animal record : animalList.getRecords()) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(record.getId());
+            record.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(record.getId());
+            record.setAnimalImgList(animalImgList);
+        }
         return animalList;
     }
 }

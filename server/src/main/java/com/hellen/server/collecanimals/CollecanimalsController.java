@@ -1,5 +1,7 @@
 package com.hellen.server.collecanimals;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hellen.base.util.UserUtil;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.client.CollectAnimals;
@@ -60,9 +62,10 @@ public class CollecanimalsController {
     /**
      * 获取我的收藏宠物
      */
-    @GetMapping("getCollectionList")
-    public Result getCollectionList(){
-        List<Animal> collectionList=collecanimalsService.getCollectionList();
+    @GetMapping("getCollectionList/{animalState}/{current}/{pageSize}")
+    public Result getCollectionList(@PathVariable String animalState, @PathVariable Long current, @PathVariable Long pageSize) {
+        Page<Animal> animalPage = new Page<>(current, pageSize);
+        IPage<Animal> collectionList = collecanimalsService.getCollectionList(animalState, animalPage);
         return Result.success(collectionList);
     }
 }
