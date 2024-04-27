@@ -9,8 +9,8 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username: 1446681329@qq.com
-    password: pkxlkgpmkzbibaef
+    username: 你的邮箱
+    password: 你的授权码
     default-encoding: UTF-8
     properties:
       mail:
@@ -21,9 +21,9 @@ spring:
             enable: true
   datasource:
     url: jdbc:mysql://localhost:3306/animal
-    username: root
+    username: 你的帐号
     ##你的密码
-    password: sntanya615720
+    password: 你的数据库密码
     driver-class-name: com.mysql.cj.jdbc.Driver
   web:
     resources:
