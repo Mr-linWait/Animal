@@ -37,13 +37,17 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
 
     @Override
     public List<Animal> hotAnimalInfoList() {
-        List<Animal> animals = animalInfoMapper.hotAnimalInfo();
+        List<Animal> animals = animalInfoMapper.hotAnimalInfo("null");
+        if (animals.size()==0)
+            animals=animalInfoMapper.hotAnimalInfo(null);
         return animals;
     }
 
     @Override
     public List<Animal> hotSearchAnimal() {
-        List<Animal> animals = animalInfoMapper.hotSearchAnimal();
+        List<Animal> animals = animalInfoMapper.hotSearchAnimal("null");
+        if (animals.size()==0)
+            animals=animalInfoMapper.hotSearchAnimal(null);
         return animals;
     }
 
@@ -66,7 +70,13 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
     public boolean saveAnimalInfo(Animal animalInfo) {
         if (animalInfo.getAnimalHealthInfo() == null && animalInfo.getAnimalState() == AnimalState.send)
             return false;
-        boolean save = save(animalInfo);
+        boolean save = false;
+        if (animalInfo.getId() != null) {//修改，需要删除所有信息
+            save = updateById(animalInfo);
+            animalHealthInfoMapper.delete(new QueryWrapper<AnimalHealthInfo>().eq("animalId",animalInfo.getId()));
+            animalImgMapper.delete(new QueryWrapper<AnimalImg>().eq("animalId",animalInfo.getId()));
+        } else
+            save = save(animalInfo);
         AnimalHealthInfo animalHealthInfo = animalInfo.getAnimalHealthInfo();
         if (animalHealthInfo != null)
             animalHealthInfoMapper.insert(animalHealthInfo.setAnimalId(animalInfo.getId()));
@@ -111,7 +121,6 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
                 queryWrapper.like("name", "%" + animalParam.getName() + "%");
         }
         queryWrapper.eq("animalState", "search");
-        queryWrapper.eq("state", "1");
         List<Animal> animals = animalInfoMapper.selectList(animalPage, queryWrapper);
         for (Animal animal : animals) {
             AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(animal.getId());
@@ -160,6 +169,14 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
     @Override
     public boolean rejectAnimal(Long animalId) {
         Animal animal = new Animal().setState(-1);
+        animal.setId(animalId);
+        boolean b = updateById(animal);
+        return b;
+    }
+
+    @Override
+    public boolean searchFor(Long animalId) {
+        Animal animal = new Animal().setState(3);
         animal.setId(animalId);
         boolean b = updateById(animal);
         return b;

@@ -113,6 +113,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             Animal animal = animalInfoMapper.selectById(record.getBizId());
             record.setBizName(animal.getName());
             User user = userMapper.selectById(record.getUserId());
+            if (user!=null)
             record.setUsername(user.getUserName());
         }
         return commentPage;

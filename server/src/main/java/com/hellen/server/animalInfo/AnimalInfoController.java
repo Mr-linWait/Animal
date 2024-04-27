@@ -110,4 +110,12 @@ public class AnimalInfoController {
         animalInfoService.removeById(id);
         return Result.success();
     }
+
+    @GetMapping("searchFor/{animalId}")
+    public Result approvalAnimal(@PathVariable Long animalId){
+        if (animalInfoService.searchFor(animalId))
+            return Result.success();
+        else
+            return Result.fail("操作失败！");
+    }
 }

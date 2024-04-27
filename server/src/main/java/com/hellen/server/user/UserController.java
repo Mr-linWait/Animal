@@ -43,7 +43,7 @@ public class UserController {
 
     @DeleteMapping("logOut/{userId}")
     public Result logOut(@PathVariable Long userId, HttpServletRequest request) {
-        request.getSession().invalidate();
+        UserUtil.reomveUser();
         return Result.success();
     }
 

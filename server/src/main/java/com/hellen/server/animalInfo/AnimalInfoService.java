@@ -32,4 +32,6 @@ public interface AnimalInfoService extends IService<Animal> {
     IPage<Animal> getMySendAnimalPage(Page<Animal> animalPage);
 
     IPage<Animal> getMySearchAnimalPage(Page<Animal> animalPage);
+
+    boolean searchFor(Long animalId);
 }

@@ -31,4 +31,16 @@ public class UserUtil {
     public static void setActiveUser(Long userId,User user){
         USER_INFO_LOGIN.put(userId,user);
     }
+
+    public static boolean reomveUser() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = requestAttributes.getRequest();
+        String header = request.getHeader("X-User-ID");
+        User user ;
+        if (StringUtils.hasText(header))
+            user= USER_INFO_LOGIN.remove(Long.valueOf(header));
+        else
+            user= null;
+        return user !=null;
+    }
 }

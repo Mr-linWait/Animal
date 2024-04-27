@@ -13,11 +13,11 @@ import java.util.List;
 @Mapper
 public interface AnimalInfoMapper extends BaseMapper<Animal> {
 
-    List<Animal> hotAnimalInfo();
+    List<Animal> hotAnimalInfo(@Param("again") String again);
 
     int insertHealthInfo(AnimalHealthInfo animalHealthInfo);
 
-    List<Animal> hotSearchAnimal();
+    List<Animal> hotSearchAnimal(@Param("again") String again);
 
     List<Animal> animalList();
 
