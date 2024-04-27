@@ -130,6 +130,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userMapper.insertCode(email,code,localDateTime);
     }
 
+    @Override
+    public void updatePwd(Long id, String pwd) {
+        User user = new User();
+        user.setId(id);
+        user.setPassword(pwd);
+        userMapper.updateById(user);
+    }
+
     private static final String LANDLINE_PHONE_REGEX = "^\\(?\\d{3,4}\\)?[- .]?\\d{7,8}$";//固定电话校验
     private static final String MOBILE_PHONE_REGEX = "^1[3-9]\\d{9}$";//手机校验
 

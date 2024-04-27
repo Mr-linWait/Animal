@@ -178,4 +178,30 @@ public class AnimalInfoServiceImpl extends ServiceImpl<AnimalInfoMapper, Animal>
         }
         return animalList;
     }
+
+    @Override
+    public IPage<Animal> getMySendAnimalPage(Page<Animal> animalPage) {
+        IPage<Animal> animalPageList = animalInfoMapper.getMySendAnimalPage(animalPage, UserUtil.getUser().getId());
+        for (Animal record : animalPageList.getRecords()) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(record.getId());
+            record.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(record.getId());
+            record.setAnimalImgList(animalImgList);
+        }
+        return animalPageList;
+    }
+
+    @Override
+    public IPage<Animal> getMySearchAnimalPage(Page<Animal> animalPage) {
+        IPage<Animal> animalPageList = animalInfoMapper.getMySearchAnimalPage(animalPage, UserUtil.getUser().getId());
+        for (Animal record : animalPageList.getRecords()) {
+            AnimalHealthInfo animalHealthInfo = animalHealthInfoMapper.selectByAnimalId(record.getId());
+            record.setAnimalHealthInfo(animalHealthInfo);
+
+            List<AnimalImg> animalImgList = animalImgMapper.selectListByAnimalId(record.getId());
+            record.setAnimalImgList(animalImgList);
+        }
+        return animalPageList;
+    }
 }

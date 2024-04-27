@@ -62,4 +62,25 @@
                  left join tb_animalImg img on animal.id = img.animalId
     </select>
 
+    <select id="getMySendAnimalPage" resultType="com.hellen.entity.client.Animal">
+        SELECT *
+        FROM (SELECT *
+              FROM tb_animal
+              WHERE modifier = #{userId}
+                AND animalState = 'send'
+              UNION
+              SELECT ta.*
+              FROM tb_animalAdoption
+                       JOIN animal.tb_animal ta on tb_animalAdoption.animalId = ta.id
+              WHERE applyId = #{userId}
+                and applyState = 'Pass') animal
+
+    </select>
+    <select id="getMySearchAnimalPage" resultType="com.hellen.entity.client.Animal">
+        SELECT *
+        FROM tb_animal
+        WHERE modifier = #{userId}
+          AND animalState = 'search'
+    </select>
+
 </mapper>

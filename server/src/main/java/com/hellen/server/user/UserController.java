@@ -2,6 +2,7 @@ package com.hellen.server.user;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hellen.base.util.SecurityUtil;
 import com.hellen.base.util.UserUtil;
 import com.hellen.entity.manangement.User;
 import com.hellen.enum_.ResultCodeEnum;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     @DeleteMapping("logOut/{userId}")
-    public Result logOut(@PathVariable Long userId,HttpServletRequest request){
+    public Result logOut(@PathVariable Long userId, HttpServletRequest request) {
         request.getSession().invalidate();
         return Result.success();
     }
@@ -64,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("modifyUserInfo")
-    public Result modifyUserInfo(@RequestParam User userInfo) {
+    public Result modifyUserInfo(@RequestBody User userInfo) {
         if (userInfo == null)
             return Result.fail(ResultCodeEnum.PARAM_ERROR);
         if (userService.modifyUserInfoById(userInfo))
@@ -74,19 +76,28 @@ public class UserController {
     }
 
     @GetMapping("getUserList/{current}/{pageSize}")
-    public Result getUserList (@RequestParam(required = false) User user, @PathVariable long current,@PathVariable long pageSize){
+    public Result getUserList(@RequestParam(required = false) User user, @PathVariable long current, @PathVariable long pageSize) {
         Page<User> userPage = new Page<>(current, pageSize);
-        IPage<User> userIPage=userService.selectPageUserInfo(userPage,user);
+        IPage<User> userIPage = userService.selectPageUserInfo(userPage, user);
         return Result.success(userIPage);
     }
 
     @GetMapping("/get/{id}")
-    public Result get(@PathVariable Long id){
+    public Result get(@PathVariable Long id) {
         User user = userService.getById(id);
         user.setPassword(null);
         return Result.success(user);
     }
 
 
+    @GetMapping("changePwd/{oldPwd}/{newPwd}")
+    public Result changePwd(@PathVariable String oldPwd, @PathVariable String newPwd) {
+        User user = UserUtil.getUser();
+        if (!user.getPassword().equals(SecurityUtil.encryptPasswordWithSaltAndSHA256(oldPwd))) {
+            return Result.fail("旧密码错误！");
+        }
+        userService.updatePwd(user.getId(), SecurityUtil.encryptPasswordWithSaltAndSHA256(newPwd));
+        return Result.success();
+    }
 
 }

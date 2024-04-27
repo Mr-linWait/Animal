@@ -24,4 +24,6 @@ public interface UserService extends IService<User> {
     boolean checkCode(String eamil, String code);
 
     void insertCode(String email, String code);
+
+    void updatePwd(Long id, String pwd);
 }
