@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getMethod().equals("OPTIONS"))
+            return true;
         User user = UserUtil.getUser();
         if (user == null) {
             response.setContentType("application/json");
