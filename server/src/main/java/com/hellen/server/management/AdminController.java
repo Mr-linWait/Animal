@@ -1,6 +1,7 @@
 package com.hellen.server.management;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hellen.base.util.UserUtil;
 import com.hellen.entity.client.Animal;
 import com.hellen.entity.manangement.User;
 import com.hellen.enum_.ResultCodeEnum;
@@ -35,6 +36,7 @@ public class AdminController {
             return Result.fail(ResultCodeEnum.PARAM_ERROR);
         User adminlogin = userService.Adminlogin(account,password);
         if (adminlogin!=null){
+            UserUtil.setActiveUser(adminlogin.getId(),adminlogin);
             HttpSession session = request.getSession(true);
             session.setAttribute("loginUser",adminlogin);
             return Result.success("登录成功！");

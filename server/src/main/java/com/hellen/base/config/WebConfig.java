@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
+                .excludePathPatterns("/admin/adminLogin/**")
                 .excludePathPatterns("/animalInfo/hotAnimal")//热门宠物
                 .excludePathPatterns("/animalInfo/hotSearchAnimal")
                 .excludePathPatterns("/animalInfo/animalInfoList/**")
