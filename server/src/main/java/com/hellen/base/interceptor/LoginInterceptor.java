@@ -18,6 +18,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
+            response.setHeader("Access-Control-Allow-Origin","http://localhost:5173");
+            response.setHeader("Access-Control-Allow-Headers","x-user-id");
+            response.setHeader("Access-Control-Allow-Methods","GET,POST,PUT,DELETE,OPTIONS");
             try(PrintWriter writer = response.getWriter()){
                 writer.write("{\"code\":\"401\",\"message\":\"用户未登录，请先登录\"}");
                 writer.flush();
