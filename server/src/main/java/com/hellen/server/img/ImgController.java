@@ -39,7 +39,10 @@ public class ImgController {
         String uniqueFileName = FileNameGenerator.generateUniqueFileName(file.getOriginalFilename());
         // 生成保存图片的路径
         String filePatch = ResourceUtils.getURL("classpath:").getPath() + "/static" + "/image/";
-        if (filePatch.substring(0,1).equals("/")) {
+        // WIN 的路径存在问题
+        String osName = System.getProperty("os.name");
+        boolean isWindows = osName.startsWith("Windows");
+        if (isWindows) {
             filePatch = filePatch.replaceFirst("/", "");
         }
         Path destinationFile = Paths.get(filePatch, uniqueFileName);
