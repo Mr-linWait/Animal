@@ -38,7 +38,10 @@ public class ImgController {
 
         String uniqueFileName = FileNameGenerator.generateUniqueFileName(file.getOriginalFilename());
         // 生成保存图片的路径
-        String filePatch = ResourceUtils.getURL("classpath:").getPath() +"/static" + "/image/";
+        String filePatch = ResourceUtils.getURL("classpath:").getPath() + "/static" + "/image/";
+        if (filePatch.substring(0,1).equals("/")) {
+            filePatch = filePatch.replaceFirst("/", "");
+        }
         Path destinationFile = Paths.get(filePatch, uniqueFileName);
 
         // 确保目录存在

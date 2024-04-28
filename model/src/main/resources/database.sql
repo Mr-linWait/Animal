@@ -79,7 +79,7 @@ create table tb_animalImg
     createTime datetime,
     modifyTime datetime,
     modifier   varchar(65)
-)
+);
 
 create table tb_animalHealthInfo
 (
@@ -105,17 +105,21 @@ create table tb_animal
     animalState varchar(20),
     province    varchar(30),
     city        varchar(30),
-    state int,
+    state       int,
     description varchar(200),
     reward      int,
     createTime  datetime,
     modifyTime  datetime,
     modifier    varchar(65)
-)
+);
 
-create table tb_code(
-    email varchar(30),
-    code varchar(20),
+create table tb_code
+(
+    email      varchar(30),
+    code       varchar(20),
     createTime datetime,
-                    primary key (email,code)
-)
+    primary key (email, code)
+);
+
+-- 插入管理员端的数据
+INSERT INTO tb_user(id,account,userName,password,userType) VALUE (1,'admin','admin','322b2e9ebb9baf876d56a113413fa55ed34c5f901d21ea9bf5930eb25a02b020','Admin');
