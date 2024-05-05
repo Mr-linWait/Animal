@@ -37,7 +37,7 @@ public class UserController {
             USER_INFO.set(loginUser);
             UserUtil.setActiveUser(loginUser.getId(), loginUser);
         } else
-            return Result.fail(ResultCodeEnum.NOT_REGIST);
+            return Result.fail("账号或者密码不正确！");
         return Result.success(loginUser);
     }
 
